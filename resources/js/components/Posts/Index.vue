@@ -1,3 +1,13 @@
+<script setup>
+import { onMounted } from "vue";
+import usePosts from "../../composables/posts";
+
+const { posts, getPosts } = usePosts()
+onMounted(() => {
+    getPosts()
+})
+</script>
+
 <template>
     <div class="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800">
         <div class="min-w-full align-middle dark:border-gray-500">
@@ -38,23 +48,3 @@
         </div>
     </div>
 </template>
-
-<script>
-export default {
-    data() {
-        return {
-            posts: []
-        }
-    },
-    mounted() {
-        this.fetchPosts()
-    },
-    methods: {
-        fetchPosts() {
-            axios.get('/api/posts')
-                .then(response => this.posts = response.data)
-                .catch(error => console.log(error))
-        }
-    }
-}
-</script>

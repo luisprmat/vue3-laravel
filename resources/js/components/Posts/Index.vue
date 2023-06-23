@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
-import usePosts from "../../composables/posts";
+import usePosts from "@/composables/posts";
 
 const { posts, getPosts } = usePosts()
 onMounted(() => {

@@ -22,6 +22,9 @@ onMounted(() => {
                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Título</span>
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left dark:bg-gray-800">
+                            <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoría</span>
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left dark:bg-gray-800">
                             <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contenido</span>
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left dark:bg-gray-800">
@@ -38,6 +41,9 @@ onMounted(() => {
                             {{ post.title }}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 dark:text-gray-200">
+                            {{ post.category }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 dark:text-gray-200">
                             {{ post.content }}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 dark:text-gray-200">
@@ -51,8 +57,8 @@ onMounted(() => {
                 :data="posts"
                 @pagination-change-page="getPosts"
                 class="mt-4"
-                item-classes="['dark:bg-gray-800', 'dark:border-gray-900']"
-                active-classes="['bg-blue-50', 'dark:bg-gray-200']"
+                :item-classes="['dark:bg-gray-800', 'dark:border-gray-900']"
+                :active-classes="['bg-blue-50', 'dark:bg-gray-600']"
             />
         </div>
     </div>

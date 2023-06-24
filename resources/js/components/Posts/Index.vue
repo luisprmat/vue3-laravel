@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { TailwindPagination } from 'laravel-vue-pagination';
 import usePosts from "@/composables/posts";
 import useCategories from "@/composables/categories";
@@ -11,6 +11,10 @@ const { categories, getCategories } = useCategories()
 onMounted(() => {
     getPosts(),
     getCategories()
+})
+
+watch(selectedCategory, (current, previous) => {
+    getPosts(1, current)
 })
 </script>
 
@@ -68,7 +72,7 @@ onMounted(() => {
 
              <TailwindPagination
                 :data="posts"
-                @pagination-change-page="getPosts"
+                @pagination-change-page="page => getPosts(page, selectedCategory)"
                 class="mt-4"
                 :item-classes="['dark:bg-gray-800', 'dark:border-gray-900']"
                 :active-classes="['bg-blue-50', 'dark:bg-gray-600']"

@@ -10,7 +10,7 @@ const post = reactive({
 })
 
 const { categories, getCategories } = useCategories()
-const { storePost } = usePosts()
+const { storePost, validationErrors } = usePosts()
 
 onMounted(() => {
     getCategories()
@@ -25,6 +25,11 @@ onMounted(() => {
                 Título
             </label>
             <input v-model="post.title" id="post-title" type="text" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+            <div class="text-red-600 mt-1">
+                <div v-for="message in validationErrors?.title">
+                    {{ message }}
+                </div>
+            </div>
         </div>
 
         <!-- Content -->
@@ -33,6 +38,11 @@ onMounted(() => {
                 Contenido
             </label>
             <textarea v-model="post.content" id="post-content" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+            <div class="text-red-600 mt-1">
+                <div v-for="message in validationErrors?.content">
+                    {{ message }}
+                </div>
+            </div>
         </div>
 
         <!-- Category -->
@@ -46,6 +56,11 @@ onMounted(() => {
                     {{ category.name }}
                 </option>
             </select>
+            <div class="text-red-600 mt-1">
+                <div v-for="message in validationErrors?.category_id">
+                    {{ message }}
+                </div>
+            </div>
         </div>
 
         <!-- Buttons -->

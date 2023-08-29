@@ -10,7 +10,7 @@ const post = reactive({
 })
 
 const { categories, getCategories } = useCategories()
-const { storePost, validationErrors } = usePosts()
+const { storePost, validationErrors, isLoading } = usePosts()
 
 onMounted(() => {
     getCategories()
@@ -64,8 +64,10 @@ onMounted(() => {
         </div>
 
         <!-- Buttons -->
-        <div class="mt-4">
-            <button class="rounded-md bg-indigo-600 px-3 py-2 text-sm uppercase text-white">Guardar</button>
-        </div>
+        <button :disabled="isLoading" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm uppercase text-white disabled:opacity-75 disabled:cursor-not-allowed">
+            <span v-show="isLoading" class="inline-block animate-spin w-4 h-4 mr-2 border-t-2 border-t-white border-r-2 border-r-white border-b-2 border-b-white border-l-2 border-l-blue-600 rounded-full"></span>
+            <span v-if="isLoading">Procesando...</span>
+            <span v-else>Guardar</span>
+        </button>
     </form>
 </template>

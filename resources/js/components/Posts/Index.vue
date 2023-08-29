@@ -97,6 +97,9 @@ watch(selectedCategory, (current, previous) => {
                                 </div>
                             </div>
                         </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left">
+                            <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Acciones</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-300 divide-solid dark:bg-gray-900 dark:divide-gray-600">
@@ -115,6 +118,9 @@ watch(selectedCategory, (current, previous) => {
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 dark:text-gray-200">
                             {{ post.created_at }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                            <router-link :to="{ name: 'posts.edit', params: { id: post.id } }">Editar</router-link>
                         </td>
                     </tr>
                 </tbody>

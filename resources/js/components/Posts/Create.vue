@@ -1,3 +1,56 @@
+<script setup>
+import { onMounted, reactive } from 'vue';
+import useCategories from '@/composables/categories';
+import usePosts from '@/composables/posts';
+
+const post = reactive({
+    title: '',
+    content: '',
+    category_id: ''
+})
+
+const { categories, getCategories } = useCategories()
+const { storePost } = usePosts()
+
+onMounted(() => {
+    getCategories()
+})
+</script>
+
 <template>
-    Por hacer
+    <form @submit.prevent="storePost(post)">
+        <!-- Title -->
+        <div>
+            <label for="post-title" class="block text-sm font-medium text-gray-700">
+                Título
+            </label>
+            <input v-model="post.title" id="post-title" type="text" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+        </div>
+
+        <!-- Content -->
+        <div class="mt-4">
+            <label for="post-content" class="block text-sm font-medium text-gray-700">
+                Contenido
+            </label>
+            <textarea v-model="post.content" id="post-content" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+        </div>
+
+        <!-- Category -->
+        <div class="mt-4">
+            <label for="post-category" class="block text-sm font-medium text-gray-700">
+                Categoría
+            </label>
+            <select v-model="post.category_id" id="post-category" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <option value="" selected>-- Elegir categoría --</option>
+                <option v-for="category in categories" :value="category.id">
+                    {{ category.name }}
+                </option>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4">
+            <button class="rounded-md bg-indigo-600 px-3 py-2 text-sm uppercase text-white">Guardar</button>
+        </div>
+    </form>
 </template>

@@ -1,28 +1,48 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import AuthenticatedLayout from '@/layouts/Authenticated.vue';
+import GuestLayout from '@/layouts/Guest.vue';
+
 import PostsIndex from '@/components/Posts/Index.vue'
 import PostsCreate from '@/components/Posts/Create.vue'
 import PostsEdit from '@/components/Posts/Edit.vue'
+import Login from '@/components/Auth/Login.vue';
 
 const routes = [
     {
-        path: '/',
-        name: 'posts.index',
-        component: PostsIndex,
-        meta: { title: 'Publicaciones' }
+        component: GuestLayout,
+        children: [
+            {
+                path: '/login',
+                name: 'login',
+                component: Login
+            },
+        ]
     },
     {
-        path: '/posts/create',
-        name: 'posts.create',
-        component: PostsCreate,
-        meta: { title: 'Agregar nueva publicación' }
+        component: AuthenticatedLayout,
+        children: [
+            {
+                path: '/posts',
+                name: 'posts.index',
+                component: PostsIndex,
+                meta: { title: 'Publicaciones' }
+            },
+            {
+                path: '/posts/create',
+                name: 'posts.create',
+                component: PostsCreate,
+                meta: { title: 'Agregar nueva publicación' }
+            },
+            {
+                path: '/posts/edit/:id',
+                name: 'posts.edit',
+                component: PostsEdit,
+                meta: { title: 'Editar publicación' }
+            },
+        ]
     },
-    {
-        path: '/posts/edit/:id',
-        name: 'posts.edit',
-        component: PostsEdit,
-        meta: { title: 'Editar publicación' }
-    },
+
 ]
 
 export default createRouter({

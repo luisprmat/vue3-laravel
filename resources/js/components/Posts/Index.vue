@@ -206,7 +206,7 @@ watch(search_global, (current, previous) => {
 
              <TailwindPagination
                 :data="posts"
-                @pagination-change-page="page => getPosts(page, search_category)"
+                @pagination-change-page="page => getPosts(page, search_category, search_id, search_title, search_content, search_global, orderColumn, orderDirection)"
                 class="mt-4"
                 :item-classes="['dark:bg-gray-800', 'dark:border-gray-900']"
                 :active-classes="['bg-blue-50', 'dark:bg-gray-600']"

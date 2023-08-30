@@ -8,6 +8,7 @@ const search_category = ref('')
 const search_id = ref('')
 const search_title = ref('')
 const search_content = ref('')
+const search_global = ref('')
 const orderColumn = ref('created_at')
 const orderDirection = ref('desc')
 const { posts, getPosts, deletePost } = usePosts()
@@ -38,7 +39,8 @@ watch(search_category, (current, previous) => {
         current,
         search_id.value,
         search_title.value,
-        search_content.value
+        search_content.value,
+        search_global.value
     )
 })
 watch(search_id, (current, previous) => {
@@ -47,7 +49,8 @@ watch(search_id, (current, previous) => {
         search_category.value,
         current,
         search_title.value,
-        search_content.value
+        search_content.value,
+        search_global.value
     )
 })
 watch(search_title, (current, previous) => {
@@ -56,7 +59,8 @@ watch(search_title, (current, previous) => {
         search_category.value,
         search_id.value,
         current,
-        search_content.value
+        search_content.value,
+        search_global.value
     )
 })
 watch(search_content, (current, previous) => {
@@ -65,6 +69,17 @@ watch(search_content, (current, previous) => {
         search_category.value,
         search_id.value,
         search_title.value,
+        current,
+        search_global.value
+    )
+})
+watch(search_global, (current, previous) => {
+    getPosts(
+        1,
+        search_category.value,
+        search_id.value,
+        search_title.value,
+        search_content.value,
         current
     )
 })
@@ -74,12 +89,9 @@ watch(search_content, (current, previous) => {
     <div class="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800">
         <div class="min-w-full align-middle dark:border-gray-500">
             <div class="mb-4">
-                <select v-model="search_category" class="block mt-1 w-full sm:w-1/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                    <option value="" selected>-- Filtrar por categoría --</option>
-                    <option v-for="category in categories" :value="category.id" :key="category.id">
-                        {{ category.name }}
-                    </option>
-                </select>
+                <div class="mb-4 grid lg:grid-cols-4">
+                    <input v-model="search_global" type="text" placeholder="Buscar..." class="inline-block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                </div>
             </div>
             <table class="min-w-full divide-y divide-gray-200 border dark:divide-gray-800">
                 <thead>

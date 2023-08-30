@@ -114,7 +114,7 @@ watch(selectedCategory, (current, previous) => {
                             {{ post.category }}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 dark:text-gray-200">
-                            {{ post.content }}
+                            {{ post.excerpt }}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900 dark:text-gray-200">
                             {{ post.created_at }}

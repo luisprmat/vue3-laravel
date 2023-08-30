@@ -82,5 +82,49 @@ export default function usePosts() {
             .finally(() => isLoading.value = false)
     }
 
-    return { posts, post, getPosts, getPost, storePost, updatePost, validationErrors, isLoading }
+    const deletePost = async (id) => {
+        swal({
+            title: '¿Está seguro?',
+            text: '¡Esta acción no se puede deshacer!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '¡Si, bórrala!',
+            cancelButtonText: 'No quiero',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.delete('/api/posts/' + id)
+                        .then(response => {
+                            getPosts()
+                            router.push({ name: 'posts.index' })
+                            swal({
+                                icon: 'success',
+                                title: 'Publicación eliminada exitosamente'
+                            })
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'Algo salió mal'
+                            })
+                        })
+                }
+            })
+    }
+
+    return {
+        posts,
+        post,
+        getPosts,
+        getPost,
+        storePost,
+        updatePost,
+        deletePost,
+        validationErrors,
+        isLoading
+    }
 }

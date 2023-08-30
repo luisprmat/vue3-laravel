@@ -4,7 +4,10 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import usePosts from "@/composables/posts";
 import useCategories from "@/composables/categories";
 
-const selectedCategory = ref('')
+const search_category = ref('')
+const search_id = ref('')
+const search_title = ref('')
+const search_content = ref('')
 const orderColumn = ref('created_at')
 const orderDirection = ref('desc')
 const { posts, getPosts, deletePost } = usePosts()
@@ -13,7 +16,15 @@ const { categories, getCategories } = useCategories()
 const updateOrdering = (column) => {
     orderColumn.value = column
     orderDirection.value = (orderDirection.value === 'asc') ? 'desc' : 'asc'
-    getPosts(1, selectedCategory.value, orderColumn.value, orderDirection.value)
+    getPosts(
+        1,
+        search_category.value,
+        search_id.value,
+        search_title.value,
+        search_content.value,
+        orderColumn.value,
+        orderDirection.value
+    )
 }
 
 onMounted(() => {
@@ -21,8 +32,41 @@ onMounted(() => {
     getCategories()
 })
 
-watch(selectedCategory, (current, previous) => {
-    getPosts(1, current)
+watch(search_category, (current, previous) => {
+    getPosts(
+        1,
+        current,
+        search_id.value,
+        search_title.value,
+        search_content.value
+    )
+})
+watch(search_id, (current, previous) => {
+    getPosts(
+        1,
+        search_category.value,
+        current,
+        search_title.value,
+        search_content.value
+    )
+})
+watch(search_title, (current, previous) => {
+    getPosts(
+        1,
+        search_category.value,
+        search_id.value,
+        current,
+        search_content.value
+    )
+})
+watch(search_content, (current, previous) => {
+    getPosts(
+        1,
+        search_category.value,
+        search_id.value,
+        search_title.value,
+        current
+    )
 })
 </script>
 
@@ -30,7 +74,7 @@ watch(selectedCategory, (current, previous) => {
     <div class="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800">
         <div class="min-w-full align-middle dark:border-gray-500">
             <div class="mb-4">
-                <select v-model="selectedCategory" class="block mt-1 w-full sm:w-1/4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:bg-gray-700">
+                <select v-model="search_category" class="block mt-1 w-full sm:w-1/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                     <option value="" selected>-- Filtrar por categoría --</option>
                     <option v-for="category in categories" :value="category.id" :key="category.id">
                         {{ category.name }}
@@ -39,6 +83,27 @@ watch(selectedCategory, (current, previous) => {
             </div>
             <table class="min-w-full divide-y divide-gray-200 border dark:divide-gray-800">
                 <thead>
+                    <tr>
+                        <th class="px-6 py-3 bg-gray-50 text-left">
+                            <input v-model="search_id" type="text" class="inline-block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" placeholder="Filtrar por ID">
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left">
+                            <input v-model="search_title" type="text" class="inline-block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" placeholder="Filtrar por Título">
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left">
+                            <select v-model="search_category" class="inline-block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <option value="" selected>-- todas las categorías --</option>
+                                <option v-for="category in categories" :value="category.id">
+                                    {{ category.name }}
+                                </option>
+                            </select>
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left">
+                            <input v-model="search_content" type="text" class="inline-block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" placeholder="Filtrar por Contenido">
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left"></th>
+                        <th class="px-6 py-3 bg-gray-50 text-left"></th>
+                    </tr>
                     <tr>
                         <th class="px-6 py-3 bg-gray-50 text-left dark:bg-gray-800">
                             <div class="flex flex-row items-center justify-between cursor-pointer" @click="updateOrdering('id')">
@@ -129,7 +194,7 @@ watch(selectedCategory, (current, previous) => {
 
              <TailwindPagination
                 :data="posts"
-                @pagination-change-page="page => getPosts(page, selectedCategory)"
+                @pagination-change-page="page => getPosts(page, search_category)"
                 class="mt-4"
                 :item-classes="['dark:bg-gray-800', 'dark:border-gray-900']"
                 :active-classes="['bg-blue-50', 'dark:bg-gray-600']"

@@ -34,5 +34,11 @@ class DatabaseSeeder extends Seeder
                 'category_id' => $categories->random(),
             ]);
         }
+
+        $this->call([
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+        ]);
     }
 }
